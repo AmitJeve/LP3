@@ -1,0 +1,168 @@
+------------------------------------------------------------Linear Reg-------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+#Read dataset
+dataset = pd.read_csv("linear_regression_dataset.csv")
+print(dataset)
+##################
+x = dataset.iloc[:,:-1].values
+y = dataset.iloc[:,1].values
+#################
+#import linear regression and create object of it
+from sklearn.linear_model import LinearRegression
+
+#create object of LinearRegression
+regressor = LinearRegression()
+#train the data
+regressor.fit(x,y) 
+#########################
+hours = int(input("Enter the no of hours : "))
+predicted_value = regressor.predict([[hours]])
+print(predicted_value)
+########################
+output = regressor.predict(x)
+###################
+plt.plot(x,y,'o', label="data point")
+
+#plot the line
+plt.plot(x,output,label='regression line')
+
+# x-axis label
+plt.xlabel('Driving Hours')
+
+#y-axis label
+plt.ylabel('Risk Score')
+
+plt.legend()
+plt.show()
+
+-----------------------------------------------------------------------------------------
+
+
+--------------------------------------------KNN------------------------------------------
+import numpy as np
+import pandas as pd
+
+x=[[2,4],[4,4],[4,6],[4,2],[6,2],[6,4],[8,2]]
+y=["Orange","Blue", "Orange", "Orange", "Blue", "Orange", "Blue"]
+######################################
+
+from sklearn.neighbors import KNeighborsClassifier
+classifier = KNeighborsClassifier(n_neighbors=3)
+classifier.fit(x,y)
+#########################
+
+x_test= np.array([4,3])
+y_pred = classifier.predict([x_test])
+print(y_pred)
+
+-------------------------------------------------------------------------------------------------
+
+
+----------------------------------Decision Tree-------------------------------------------------
+import numpy as np
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import export_graphviz
+from IPython.display import Image
+#reading dataset
+dataset = pd.read_csv("decision_Tree_dataset.csv")
+dataset
+##############################
+#perform label encoding
+from sklearn.preprocessing import LabelEncoder
+labelencoder_x = LabelEncoder()
+dataset = dataset.apply(LabelEncoder().fit_transform)
+print(dataset)
+##########################
+x = dataset.iloc[ : ,  : -1]
+y = dataset['Buys']
+
+
+print(x)
+print(y)
+#################################
+# applying decision tree classifier
+
+
+dt = DecisionTreeClassifier()
+
+dt.fit(x,y)
+##############################33
+dt.predict([[0, 0, 1, 1]])
+
+------------------------------------------------------------------------------------------------
+
+
+------------------------------------------Kmeans-----------------------------------------------
+
+#import packages
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+#read dataset 
+dataset = pd.read_csv("Kmeans_dataset.csv")
+print(dataset)
+################################
+f1 = dataset['X'].values
+f2 = dataset['Y'].values
+x = np.array(list(zip(f1, f2)))
+print(x)
+###############################
+# initial centroid points
+centers = np.array([[0.1,0.6],[0.3,0.2]])
+print(centers)
+
+
+
+###############################
+
+# Apply K-Means Clustering
+from sklearn.cluster import KMeans 
+model = KMeans(n_clusters=2, init=centers, n_init=1)
+# n_clusters = number of clusters
+# init = initial centroids
+# n_init = number of init parameter
+
+#train the algorithm
+model.fit(x)
+
+# print labels
+print(model.labels_)
+
+# output : [0 0 0 0 1 0 1 1]
+# 0 --> cluster no. 1 and 1 --> cluster no. 2
+
+###############################
+
+# population around cluster 2
+print(np.count_nonzero(model.labels_ == 1))
+
+###############################
+
+# new centroids 
+print(model.cluster_centers_)
+###############################
+
+# Cluster with initial centroids
+C_x = np.array([0.1, 0.3])
+C_y = np.array([0.6, 0.2]) 
+plt.scatter(f1, f2, c='#050505', s=7)
+plt.scatter(C_x, C_y, marker='*', s=200, c='g')
+###############################
+
+# cluster with new centroids 
+N_x = np.array([model.cluster_centers_[0][0], model.cluster_centers_[1][0]])
+N_y = np.array([model.cluster_centers_[0][1],model.cluster_centers_[1][1]])
+plt.scatter(f1, f2, c='#050505', s=7)
+plt.scatter(N_x, N_y, marker='*', s=200, c='g')
+
+###############################
+
+
+------------------------------------------------------------------------------------------------
+
+
